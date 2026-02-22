@@ -2,7 +2,7 @@
 import pandas as pd
 from ai_report import generate_risk_report
 
-df1=pd.read_csv('earthquake_data_eda.csv')
+df1=pd.read_csv('earthquake_data_eda_with_risk_prob.csv')
 top_event = df1.sort_values(by='risk_prob', ascending=False).iloc[0]
 
 payload = {
@@ -16,3 +16,6 @@ payload = {
 report = generate_risk_report(payload)
 
 print(report)
+
+with open('earthquake_risk_report.txt', 'w') as f:
+    f.write(report)

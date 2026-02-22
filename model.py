@@ -39,6 +39,7 @@ df1['risk_level'] = pd.cut(df1['risk_prob'], bins=[0, 0.7, 0.9, 1.0], labels=['L
 print('ROC-AUC:', roc_auc_score(y_test, y_prob))
 print(classification_report(y_test, y_pred))
 print('Weights:', dict(zip(features, clf.coef_[0])))
+df1.to_csv('earthquake_data_eda_with_risk_prob.csv', index=False, encoding='utf-8-sig')
 
 #cross-validation
 scores = cross_val_score(

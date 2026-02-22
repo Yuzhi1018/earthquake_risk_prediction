@@ -24,7 +24,6 @@ def generate_risk_report(payload: dict):
     3.Recommeneded Immediate Actions
     4.Policy Recommendations
     """
-
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -35,3 +34,4 @@ def generate_risk_report(payload: dict):
     )
 
     return response.choices[0].message.content
+
