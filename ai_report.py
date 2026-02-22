@@ -1,3 +1,4 @@
+from urllib import response
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
@@ -34,4 +35,3 @@ def generate_risk_report(payload: dict):
     )
 
     return response.choices[0].message.content
-
