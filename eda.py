@@ -41,17 +41,14 @@ df["depth"] = df["geometry.coordinates"].apply(
 )
 
 df["depth"] = df["depth"].fillna(df["depth"].median())
-df['depth'] = df['geometry.coordinates'].apply(lambda x: x[2] if isinstance(x, list) and len(x) > 2 else np.nan)
-df['depth'] = df['depth'].fillna(df['depth'].median())
-
-                                                   
-#new index- Risk score (utilizing magnitude, depth, and tsunami)
+                                     
+# Heuristic risk score based on normalized magnitude and depth
 df = df.dropna(subset=['properties.mag','depth'])
 df['mag_norm'] = (df['properties.mag'] - df['properties.mag'].min()) / (df['properties.mag'].max() - df['properties.mag'].min())
 df['depth_norm'] = 1- (df['depth'] - df['depth'].min()) / (df['depth'].max() - df['depth'].min())
 df['tsunami_flag'] = df['properties.tsunami'].fillna(0)
 #heuristic risk score calculation
-df['risk_score'] = 0.7 * df['mag_norm'] + 0.3 * df['depth_norm'] + 0 * df['tsunami_flag']
+df['risk_score'] = 0.7 * df['mag_norm'] + 0.3 * df['depth_norm'] 
 
 x = df[['properties.mag', 'depth', 'tsunami_flag']]
 y = df['properties.sig']
@@ -91,8 +88,6 @@ plt.show()
 df['latitude'] = df['geometry.coordinates'].apply(lambda x: x[1] if isinstance(x, list) and len(x) > 1 else np.nan)
 df['longitude'] = df['geometry.coordinates'].apply(lambda x: x[0] if isinstance(x, list) and len(x) > 0 else np.nan)
 df = df.dropna(subset=['latitude', 'longitude'])
-if 'risk_score' not in df.columns:
-    df['risk_score'] = df['magnitude'].fillna(0)
 
 heat_data = df[['latitude', 'longitude', 'risk_score']].values.tolist()
 m = folium.Map(location=[0,0], zoom_start=2)
