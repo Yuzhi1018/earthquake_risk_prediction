@@ -1,6 +1,5 @@
-from urllib import response
-from openai import OpenAI
 import os
+from urllib import response
 from dotenv import load_dotenv
 from openai import OpenAI
 
