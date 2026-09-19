@@ -1,8 +1,7 @@
 import requests
-import json
 import pandas as pd
 
-url='https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-12-31'
+url='https://earthquake.usgs.gov/fdsnws/event/1/query'
 
 params= {
         'format': 'geojson',
@@ -11,7 +10,8 @@ params= {
         'minmagnitude': 4
     }
 
-response = requests.get(url, params=params)
+response = requests.get(url, params=params, timeout=30)
+response.raise_for_status()
 data = response.json()
 
 #print the keys and the data
