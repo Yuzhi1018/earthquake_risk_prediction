@@ -7,6 +7,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import roc_auc_score, classification_report
 from sklearn.model_selection import cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 df = pd.read_csv('earthquake_data_eda.csv')
 df1 = df.dropna(subset=['properties.mag','depth','properties.sig']).copy()
@@ -29,7 +31,7 @@ clf = LogisticRegression(max_iter=2000, class_weight='balanced')
 clf.fit(X_train, y_train)
 
 y_prob = clf.predict_proba(X_test)[:, 1]
-y_pred = (y_prob >= 0.7).astype(int)
+y_pred = clf.predict(X_test)
 
 #generate risk probability and risk level for all earthquakes
 df1['risk_prob'] = clf.predict_proba(X)[:, 1]
