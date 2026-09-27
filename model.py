@@ -14,8 +14,8 @@ df = pd.read_csv('earthquake_data_eda.csv')
 df1 = df.dropna(subset=['properties.mag','depth','properties.sig']).copy()
 
 
-#properties.mag: magnitude of the earthquake is the main factor that influences significance
-threshold=400
+# Define a high-impact event using the USGS significance score
+threshold = 400
 df1['tsunami_flag'] = df1['properties.tsunami'].fillna(0)
 df1['high_impact'] = (df1['properties.sig'] >= threshold).astype(int)
 
@@ -100,7 +100,7 @@ cell_stats = (
            n=("sig_resid", "size"),
            vuln_mean=("sig_resid", "mean"),
            vuln_median=("sig_resid", "median"),
-           p_high=("sig_resid", lambda s: (s > 100).mean()),  # 阈值100你可以调
+           p_high=("sig_resid", lambda s: (s > 100).mean()),  
            avg_mag=("properties.mag", "mean")
        )
        .reset_index()
